@@ -26,7 +26,7 @@ namespace ConnectionDB
         }
 
         //Procedimiento para setear la consulta
-        private void setQuery(string query)
+        public void setQuery(string query)
         {
             this._command.CommandType = System.Data.CommandType.Text;
             this._command.CommandText = query; 
@@ -36,15 +36,15 @@ namespace ConnectionDB
         {
             this._command.Parameters.AddWithValue(param, value);
         }
-        //Procedimiento para ejecutar la consulta 
-        public void queryExecute(string query)
+        //Metodo para ejecutar la consulta, retorna la cantidad de filas afectadas
+        //en la consulta
+        public int queryExecute()
         {
-            setQuery(query);
             this._command.Connection = _connection;
             try
             {
                 this._connection.Open();
-                this._command.ExecuteNonQuery();
+                return this._command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -53,9 +53,8 @@ namespace ConnectionDB
         }
         //Procedimiento para ejecutar la lectura de la base de datos
         //la informacion es almacenada en la propiedad _reader
-        public void readerExecute(string query)
+        public void readerExecute()
         {
-            setQuery(query);
             this._command.Connection = this._connection;
             try
             {

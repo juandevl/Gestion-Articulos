@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gestor));
             this.button1 = new System.Windows.Forms.Button();
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
+            this.btnCargarProducto = new System.Windows.Forms.Button();
+            this.txtCode = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,14 +53,34 @@
             this.dgvArticulos.Name = "dgvArticulos";
             this.dgvArticulos.RowHeadersWidth = 51;
             this.dgvArticulos.RowTemplate.Height = 24;
-            this.dgvArticulos.Size = new System.Drawing.Size(1091, 371);
+            this.dgvArticulos.Size = new System.Drawing.Size(1091, 60);
             this.dgvArticulos.TabIndex = 1;
+            // 
+            // btnCargarProducto
+            // 
+            this.btnCargarProducto.Location = new System.Drawing.Point(577, 56);
+            this.btnCargarProducto.Name = "btnCargarProducto";
+            this.btnCargarProducto.Size = new System.Drawing.Size(153, 23);
+            this.btnCargarProducto.TabIndex = 1;
+            this.btnCargarProducto.Text = "Cargar producto";
+            this.btnCargarProducto.UseVisualStyleBackColor = true;
+            this.btnCargarProducto.Click += new System.EventHandler(this.btnCargarProducto_Click);
+            // 
+            // txtCode
+            // 
+            this.txtCode.Location = new System.Drawing.Point(394, 56);
+            this.txtCode.MaxLength = 50;
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(143, 22);
+            this.txtCode.TabIndex = 0;
             // 
             // Gestor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1382, 733);
+            this.Controls.Add(this.txtCode);
+            this.Controls.Add(this.btnCargarProducto);
             this.Controls.Add(this.dgvArticulos);
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -68,6 +90,7 @@
             this.Load += new System.EventHandler(this.Gestor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -75,6 +98,8 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dgvArticulos;
+        private System.Windows.Forms.Button btnCargarProducto;
+        private System.Windows.Forms.TextBox txtCode;
     }
 }
 

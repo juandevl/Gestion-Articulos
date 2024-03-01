@@ -10,12 +10,35 @@ namespace Controllers
 {
     public class BrandController
     {
-        public List<Brand> brandList()
+        public List<Brand> GetBrands()
         {
             List<Brand> brands = new List<Brand>();
+            Connection conn = new Connection();
+            try
+            {
+                string query = "SELECT Id, Descripcion FROM MARCAS";
+                conn.setQuery(query);
+                conn.readerExecute();
+                while (conn.Reader.Read())
+                {
+                    Brand aux = new Brand();
+                    aux.Id = (int)conn.Reader["Id"];
+                    aux.Description = (string)conn.Reader["Descripcion"];
 
+                    brands.Add(aux);
+                }
 
-            return brands;
+                return brands;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.closeConnection();
+            }
+
         }
     }
 }

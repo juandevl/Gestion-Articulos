@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace frmHome
+namespace frmArticle
 {
     internal static class Program
     {
@@ -16,7 +16,7 @@ namespace frmHome
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormHome());
+            Application.Run(new FormArticle());
         }
     }
 }

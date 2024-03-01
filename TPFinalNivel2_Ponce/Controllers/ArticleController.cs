@@ -15,7 +15,7 @@ namespace Controllers
         {
         }
         //Get articles from table ARTICULOS
-        public List<Article> getArticles()
+        public List<Article> GetArticles()
         {
             List<Article> articles = new List<Article>();
             Connection conn = new Connection();
@@ -58,6 +58,15 @@ namespace Controllers
                 conn.closeConnection();
             }
 
+        }
+
+
+        //Metodo para obtener un articulo solo
+        public Article GetArticle(Article name)
+        {
+            Article aux = null;
+
+            return aux;
         }
     
         public bool insertArticle(Article art)

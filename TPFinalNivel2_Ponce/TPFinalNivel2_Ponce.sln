@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home", "Home\Home.csproj", "{FC091D2A-8175-4557-A59B-03B60F6489AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frmHome", "Home\frmHome.csproj", "{FC091D2A-8175-4557-A59B-03B60F6489AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{957DF7BE-1298-4951-81BD-9BFB839A8D09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers", "Controllers\Controllers.csproj", "{2220F0E4-661A-4A46-9F1F-5FF437F26F36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionDB", "ConnectionDB\ConnectionDB.csproj", "{FE2BF3F5-30BE-4FB6-8318-69B6A981A9E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frmArticle", "frmArticle\frmArticle.csproj", "{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FE2BF3F5-30BE-4FB6-8318-69B6A981A9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE2BF3F5-30BE-4FB6-8318-69B6A981A9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE2BF3F5-30BE-4FB6-8318-69B6A981A9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

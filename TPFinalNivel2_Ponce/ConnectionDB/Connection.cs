@@ -26,19 +26,19 @@ namespace ConnectionDB
         }
 
         //Procedimiento para setear la consulta
-        public void setQuery(string query)
+        public void SetQuery(string query)
         {
             this._command.CommandType = System.Data.CommandType.Text;
             this._command.CommandText = query; 
         }
         //Procedimiento para setear los parametros
-        public void setParam(string param, object value)
+        public void SetParam(string param, object value)
         {
             this._command.Parameters.AddWithValue(param, value);
         }
         //Metodo para ejecutar la consulta, retorna la cantidad de filas afectadas
         //en la consulta
-        public int queryExecute()
+        public int QueryExecute()
         {
             this._command.Connection = _connection;
             try
@@ -53,7 +53,7 @@ namespace ConnectionDB
         }
         //Procedimiento para ejecutar la lectura de la base de datos
         //la informacion es almacenada en la propiedad _reader
-        public void readerExecute()
+        public void ReaderExecute()
         {
             this._command.Connection = this._connection;
             try
@@ -68,7 +68,7 @@ namespace ConnectionDB
         }
 
         //Procedimiento para cerrar la conexion
-        public void closeConnection()
+        public void CloseConnection()
         {
             if (this._reader != null)
                 this._reader.Close();

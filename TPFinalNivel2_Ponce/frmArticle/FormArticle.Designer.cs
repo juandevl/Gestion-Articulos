@@ -54,7 +54,6 @@
             this.pboxImage = new System.Windows.Forms.PictureBox();
             this.lblPrevImagen = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblAlertValidation = new System.Windows.Forms.Label();
             this.btnSelectImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             this.SuspendLayout();
@@ -77,7 +76,6 @@
             this.btnSaveArticle.Text = "Guardar artículo";
             this.btnSaveArticle.UseVisualStyleBackColor = false;
             this.btnSaveArticle.Click += new System.EventHandler(this.btnSaveArticle_Click);
-            this.btnSaveArticle.MouseEnter += new System.EventHandler(this.btnSaveArticle_MouseEnter);
             // 
             // btnCancel
             // 
@@ -212,7 +210,7 @@
             this.cboxCategory.Name = "cboxCategory";
             this.cboxCategory.Size = new System.Drawing.Size(293, 27);
             this.cboxCategory.TabIndex = 6;
-            this.cboxCategory.Validated += new System.EventHandler(this.cboxCategory_Validated);
+            this.cboxCategory.SelectedIndexChanged += new System.EventHandler(this.cboxCategory_SelectedIndexChanged);
             // 
             // cboxBrand
             // 
@@ -223,7 +221,7 @@
             this.cboxBrand.Name = "cboxBrand";
             this.cboxBrand.Size = new System.Drawing.Size(293, 27);
             this.cboxBrand.TabIndex = 5;
-            this.cboxBrand.Validated += new System.EventHandler(this.cboxBrand_Validated);
+            this.cboxBrand.SelectedIndexChanged += new System.EventHandler(this.cboxBrand_SelectedIndexChanged);
             // 
             // lblBrand
             // 
@@ -352,16 +350,6 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "(URL o Imagen local)";
             // 
-            // lblAlertValidation
-            // 
-            this.lblAlertValidation.AutoSize = true;
-            this.lblAlertValidation.Location = new System.Drawing.Point(86, 557);
-            this.lblAlertValidation.Name = "lblAlertValidation";
-            this.lblAlertValidation.Size = new System.Drawing.Size(180, 19);
-            this.lblAlertValidation.TabIndex = 26;
-            this.lblAlertValidation.Text = "Completa todos los campos";
-            this.lblAlertValidation.Visible = false;
-            // 
             // btnSelectImage
             // 
             this.btnSelectImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(138)))), ((int)(((byte)(165)))));
@@ -385,7 +373,6 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(861, 629);
             this.Controls.Add(this.btnSelectImage);
-            this.Controls.Add(this.lblAlertValidation);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPrevImagen);
             this.Controls.Add(this.pboxImage);
@@ -421,7 +408,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alta de artículo";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormArticle_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).EndInit();
             this.ResumeLayout(false);
@@ -456,7 +442,6 @@
         private System.Windows.Forms.PictureBox pboxImage;
         private System.Windows.Forms.Label lblPrevImagen;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblAlertValidation;
         private System.Windows.Forms.Button btnSelectImage;
     }
 }

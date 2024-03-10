@@ -18,8 +18,8 @@ namespace Controllers
             try
             {
                 string query = "SELECT Id, Descripcion FROM CATEGORIAS";
-                conn.setQuery(query);
-                conn.readerExecute();
+                conn.SetQuery(query);
+                conn.ReaderExecute();
                 while (conn.Reader.Read())
                 {
                     Category aux = new Category();
@@ -36,9 +36,32 @@ namespace Controllers
             }
             finally
             {
-                conn.closeConnection();
+                conn.CloseConnection();
             }
 
+        }
+
+        public bool InsertNewCategory(string category_name)
+        {
+            if (string.IsNullOrWhiteSpace(category_name)) return false;
+            Connection conn = new Connection();
+            try
+            {
+                string query = "INSERT INTO CATEGORIAS (Descripcion) VALUES (@category_name)";
+                conn.SetQuery(query);
+                conn.SetParam("@category_name", category_name);
+
+                //Valido si una fila fue modificada
+                return conn.QueryExecute() == 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.CloseConnection();
+            }
         }
     }
 }

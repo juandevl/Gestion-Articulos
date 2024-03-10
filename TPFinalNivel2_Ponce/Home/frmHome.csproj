@@ -82,10 +82,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConnectionDB\ConnectionDB.csproj">
-      <Project>{fe2bf3f5-30be-4fb6-8318-69b6a981a9e0}</Project>
-      <Name>ConnectionDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Controllers\Controllers.csproj">
       <Project>{2220f0e4-661a-4a46-9f1f-5ff437f26f36}</Project>
       <Name>Controllers</Name>
@@ -93,6 +89,10 @@
     <ProjectReference Include="..\frmArticle\frmArticle.csproj">
       <Project>{defba5aa-98a8-4bf9-b94d-00028101aa3e}</Project>
       <Name>frmArticle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helper\Helper.csproj">
+      <Project>{0d60bd15-6948-41ff-b2b1-9bdea16a7ee2}</Project>
+      <Name>Helper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{957df7be-1298-4951-81bd-9bfb839a8d09}</Project>

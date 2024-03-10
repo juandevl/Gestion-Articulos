@@ -10,6 +10,7 @@ namespace Controllers
 {
     public class BrandController
     {
+        public BrandController() { }
         public List<Brand> GetBrands()
         {
             List<Brand> brands = new List<Brand>();
@@ -17,8 +18,8 @@ namespace Controllers
             try
             {
                 string query = "SELECT Id, Descripcion FROM MARCAS";
-                conn.setQuery(query);
-                conn.readerExecute();
+                conn.SetQuery(query);
+                conn.ReaderExecute();
                 while (conn.Reader.Read())
                 {
                     Brand aux = new Brand();
@@ -28,7 +29,7 @@ namespace Controllers
                     brands.Add(aux);
                 }
 
-                return brands;
+                return brands??null;
             }
             catch (Exception ex)
             {
@@ -36,9 +37,35 @@ namespace Controllers
             }
             finally
             {
-                conn.closeConnection();
+                conn.CloseConnection();
             }
 
         }
+
+        public bool InsertNewBrand(string brand_name)
+        {
+            if (string.IsNullOrWhiteSpace(brand_name)) return false;
+
+                Connection conn = new Connection();
+            try
+            {
+                string query = "INSERT INTO MARCAS (Descripcion) VALUES (@brand_name)";
+                conn.SetQuery(query);
+                conn.SetParam("@brand_name", brand_name);
+
+                //Valido si una fila fue modificada
+                return conn.QueryExecute() == 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.CloseConnection();
+            }
+        }
+
+
     }
 }

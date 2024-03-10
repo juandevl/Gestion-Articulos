@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Controllers;
 using Models;
+using Helper;
 
 namespace frmArticle
 {
@@ -26,7 +27,6 @@ namespace frmArticle
         public FormArticle()
         {
             InitializeComponent();
-            //this._ok = Color.FromArgb(22, 160, 91);
             this._ok = Color.FromArgb(51, 163, 91);
             this._alert = Color.FromArgb(247, 112, 107);
             this._default = Color.Black;
@@ -39,8 +39,6 @@ namespace frmArticle
         public FormArticle(Article updateArticle)
         {
             InitializeComponent();
-            //this._ok = Color.FromArgb(22, 160, 91);
-            //this._alert = Color.FromArgb(171, 61, 57);
             this._ok = Color.FromArgb(51, 163, 91);
             this._alert = Color.FromArgb(247, 112, 107);
             this._default = Color.Black;
@@ -68,19 +66,7 @@ namespace frmArticle
             cboxBrand.DisplayMember = "Description";
         }
         //Metodos de validacion
-        //private bool TextBoxValidation(TextBox txt)
-        //{
-        //    if (string.IsNullOrWhiteSpace(txt.Text))
-        //        return false;
-
-        //    return true;
-        //}
-        //private bool ComboBoxValidation(ComboBox cbox)
-        //{
-        //    if (cbox.SelectedIndex == 0)
-        //        return false;
-        //    return true;
-        //}
+        
         private bool PriceValidation(string text)
         {
             bool hasPoint = false;
@@ -124,7 +110,10 @@ namespace frmArticle
         {
             try
             {
-                pboxImage.Load(path);
+                if (path.ToLower().StartsWith("http"))
+                    pboxImage.Load(path);
+                else
+                    pboxImage.Image = Image.FromFile(path);
             }
             catch (Exception)
             {
@@ -156,27 +145,36 @@ namespace frmArticle
 
         private void btnSaveArticle_Click(object sender, EventArgs e)
         {
-            //if (ValidateControls())
-            //    MessageBox.Show("OK");
-            //else
-            //    MessageBox.Show("Campos vacios");
+            //Proceso para insertar articulo a la base de datos
+            ArticleController controller = new ArticleController();
+            Article art = new Article();
+            art.Name = txtNameArticle.Text;
+            art.Code = txtCodeArticle.Text;
+            art.Description = txtDescriptionArticle.Text;
+            art.Price = decimal.Parse(txtPriceArticle.Text);
+            art.BrandName = (Brand)cboxBrand.SelectedItem;
+            art.Category = (Category)cboxCategory.SelectedItem;
+            art.ImageUrl = txtImageArticle.Text;
 
-            //ArticleController controller = new ArticleController();
-            //Article art = new Article();
-            //art.Name = txtNameArticle.Text;
-            //art.Code = txtCodeArticle.Text;
-            //art.Description = txtDescriptionArticle.Text;
-            //art.Price = decimal.Parse(txtPriceArticle.Text);
-            //art.BrandName = (Brand)cboxBrand.SelectedItem;
-            //art.Category = (Category)cboxCategory.SelectedItem;
-            //art.ImageUrl = txtImageArticle.Text;
+            if (this._currentArticle != null)
+            {
+                //Si se esta modificando un articulo, cargamos el id del mismo al articulo
+                //nuevo que vamos a ingresar.
+                art.Id = this._currentArticle.Id;
+                if (controller.UpdateArticle(art))
+                    MessageBox.Show("Se actualizó con éxito");
+                else
+                    MessageBox.Show("No fue posible realizar la acción");
 
-            //MessageBox.Show("Se inserto articulo");
-            //if (controller.insertArticle(art))
-            //    MessageBox.Show("Se agrego con exito");
-            //else
-            //    MessageBox.Show("No se pudo agregar");
-
+            }
+            else
+            {
+                if (controller.InsertArticle(art))
+                    MessageBox.Show("Se agrego con éxito");
+                else
+                    MessageBox.Show("No fue posible realizar la acción");
+            }
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -184,24 +182,8 @@ namespace frmArticle
             this.Close();
         }
 
-        private void btnSaveArticle_MouseEnter(object sender, EventArgs e)
-        {
-            if (this._stateControls.Contains(false))
-            {
-                //btnSaveArticle.Enabled = false;
-                lblAlertValidation.ForeColor = this._alert;
-                lblAlertValidation.Text = "Complete los campos requeridos";
-                lblAlertValidation.Visible = true;
-            }
-            else
-            {
-                //btnSaveArticle.Enabled = true;
-                lblAlertValidation.ForeColor = this._ok;
-                lblAlertValidation.Text = "Campos válidos";
-                lblAlertValidation.Visible = true;
-            }
-        }
 
+        //Validaciones de inputs
         private void txtNameArticle_Validated(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtNameArticle.Text))
@@ -262,11 +244,12 @@ namespace frmArticle
         private void txtImageArticle_Validated(object sender, EventArgs e)
         {
             string txt = txtImageArticle.Text.ToLower();
-            if(txt.StartsWith("http://") || txt.StartsWith("https://") || txt.StartsWith("c:\\"))
+            if(txt.StartsWith("http") || txt.StartsWith("c:\\"))
             {
                 lblImageAlert.ForeColor = this._ok;
                 lblImageAlert.Text = "Dirección válida";
                 this._stateControls[txtImageArticle.TabIndex] = true;
+                LoadImagePictureBox(txt);
             }
             else
             {
@@ -275,7 +258,6 @@ namespace frmArticle
                 this._stateControls[txtImageArticle.TabIndex] = false;
             }
             btnSaveArticle.Enabled = ValidateControls();
-            LoadImagePictureBox(txt);
         }
 
         private void txtPriceArticle_Validated(object sender, EventArgs e)
@@ -296,9 +278,27 @@ namespace frmArticle
 
         }
 
-        private void cboxBrand_Validated(object sender, EventArgs e)
+        private void btnSelectImage_Click(object sender, EventArgs e)
         {
-            if(cboxBrand.SelectedIndex != 0)
+            string path = string.Empty;
+            string filter = "Image Files(*.jpg,*.png)|*.jpg;*.png";
+            OpenFileDialog ofl = new OpenFileDialog();
+            ofl.Filter = filter;
+            if(ofl.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(ofl.FileName))
+            {
+                path = ofl.FileName;
+                string filename = $"copy_{ofl.SafeFileName}";
+                txtImageArticle.Text = path;
+                if (CopyFileToDirectory(path, filename))
+                    MessageBox.Show("Se copio con exito el archivo");
+            }
+            btnSaveArticle.Enabled = ValidateControls();
+
+        }
+
+        private void cboxBrand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboxBrand.SelectedIndex != 0)
             {
                 lblBrandAlert.ForeColor = this._ok;
                 lblBrandAlert.Text = "Marca válida";
@@ -311,12 +311,11 @@ namespace frmArticle
                 this._stateControls[cboxBrand.TabIndex] = true;
             }
             btnSaveArticle.Enabled = ValidateControls();
-
         }
 
-        private void cboxCategory_Validated(object sender, EventArgs e)
+        private void cboxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cboxCategory.SelectedIndex != 0)
+            if (cboxCategory.SelectedIndex != 0)
             {
                 lblCategoryAlert.ForeColor = this._ok;
                 lblCategoryAlert.Text = "Categoría válida";
@@ -330,25 +329,9 @@ namespace frmArticle
             }
             btnSaveArticle.Enabled = ValidateControls();
         }
-
-        private void btnSelectImage_Click(object sender, EventArgs e)
-        {
-            string path = string.Empty;
-            string filter = "Image Files(*.jpg,*.png)|*.jpg;*.png";
-            OpenFileDialog ofl = new OpenFileDialog();
-            ofl.Filter = filter;
-            if(ofl.ShowDialog() == DialogResult.OK)
-            {
-                path = ofl.FileName;
-                string filename = $"copy_{ofl.SafeFileName}";
-                txtImageArticle.Text = path;
-                if (CopyFileToDirectory(path, filename))
-                    MessageBox.Show("Se copio con exito el archivo");
-            }
-            btnSaveArticle.Enabled = ValidateControls();
-
-        }
-        private bool CopyFileToDirectory(string source_path, string fileName)
+     
+        //Metodo para copiar archivo a un directorio especifico
+        private bool CopyFileToDirectory(string source_path, string file_name)
         {
             if(string.IsNullOrWhiteSpace(source_path)) return false;
 
@@ -360,7 +343,7 @@ namespace frmArticle
                     Directory.CreateDirectory(directory);
 
                 //Si el archivo existe, realizamos la copia
-                string destfilename = Path.Combine(directory, fileName);
+                string destfilename = Path.Combine(directory, file_name);
                 if (File.Exists(source_path))
                 {
                     if (File.Exists(destfilename))

@@ -23,8 +23,8 @@ namespace Controllers
             {
                 //string query = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, M.Descripcion Marca, C.Descripcion Categoria, A.ImagenUrl Imagen, A.Precio FROM ARTICULOS A JOIN MARCAS M ON A.IdMarca = M.Id JOIN CATEGORIAS C ON A.IdCategoria = C.Id";
                 string query = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca IdMarca, M.Descripcion Marca, A.IdCategoria IdCategoria, C.Descripcion Categoria, A.ImagenUrl Imagen, A.Precio FROM ARTICULOS A JOIN MARCAS M ON A.IdMarca = M.Id JOIN CATEGORIAS C ON A.IdCategoria = C.Id";
-                conn.setQuery(query);
-                conn.readerExecute();
+                conn.SetQuery(query);
+                conn.ReaderExecute();
                 while(conn.Reader.Read())
                 {
                     Article art = new Article();
@@ -55,81 +55,113 @@ namespace Controllers
             }
             finally
             {
-                conn.closeConnection();
+                conn.CloseConnection();
             }
 
         }
 
-
-        //Metodo para obtener un articulo solo
-        public Article GetArticle(Article name)
+        //Update article from table ARTICULOS
+        public bool UpdateArticle(Article art)
         {
-            Article aux = null;
+            if (art == null) return false;
 
-            return aux;
+            Connection con = new Connection();
+            try
+            {
+                string query = "UPDATE ARTICULOS SET Codigo = @code, Nombre = @name, Descripcion = @description, IdMarca = @idbrand, IdCategoria = @idcategory, ImagenUrl = @urlimage, Precio = @price WHERE Id = @id";
+                con.SetQuery(query);
+                con.SetParam("@code", art.Code);
+                con.SetParam("@name", art.Name);
+                con.SetParam("@description", art.Description);
+                con.SetParam("@idbrand", art.BrandName.Id);
+                con.SetParam("@idcategory", art.Category.Id);
+                con.SetParam("@urlimage", art.ImageUrl);
+                con.SetParam("@price", art.Price);
+                con.SetParam("@id", art.Id);
+
+                //queryExecute retorna la cantidad de filas afectadas en la consulta
+                return con.QueryExecute() == 1;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.CloseConnection();
+            }
+
         }
-    
-        public bool insertArticle(Article art)
+
+        public bool DeleteArticle(int id)
+        {
+            if (id <= 0) return false;
+            Connection conn = new Connection();
+            try
+            {
+                string query = "DELETE FROM ARTICULOS WHERE Id = @id";
+                conn.SetQuery(query);
+                conn.SetParam("@id", id);
+                
+                return conn.QueryExecute() == 1;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.CloseConnection();
+            }
+        }
+        public bool InsertArticle(Article art)
         {
             //Si el articulo no es null y Si no existe articulo, procedemos a ingresarlo en la base de datos
-            if (art != null && !this.existsArticle(art))
+            if (art == null || this.ExistsArticle(art)) return false;
+            
+            Connection conn = new Connection();
+            try
             {
-                Connection conn = new Connection();
-                try
-                {
-                    //Descomentar esto para ejecutar una consulta de prueba
-                    //conn.setQuery("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) VALUES ('I12P', 'Iphone 12 Pro', 'Todavia sirve', 2, 1, 'imagen_iphone12pro', 800.00)");
+                //Descomentar esto para ejecutar una consulta de prueba
+                //conn.setQuery("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) VALUES ('I12P', 'Iphone 12 Pro', 'Todavia sirve', 2, 1, 'imagen_iphone12pro', 800.00)");
 
-                    //Comentar esto para no interferir
-                    string query = "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) VALUES (@Code, @Name, @Description, @IdBrand, @IdCategory, @ImageUrl, @Price)";
-                    conn.setQuery(query);
-                    conn.setParam("@Code", art.Code);
-                    conn.setParam("@Name", art.Name);
-                    conn.setParam("@Description", art.Description);
-                    conn.setParam("@IdBrand", art.BrandName.Id);
-                    conn.setParam("@IdCategory", art.Category.Id);
-                    conn.setParam("@ImageUrl", art.ImageUrl);
-                    conn.setParam("@Price", art.Price);
+                //Comentar esto para no interferir
+                string query = "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) VALUES (@Code, @Name, @Description, @IdBrand, @IdCategory, @ImageUrl, @Price)";
+                conn.SetQuery(query);
+                conn.SetParam("@Code", art.Code);
+                conn.SetParam("@Name", art.Name);
+                conn.SetParam("@Description", art.Description);
+                conn.SetParam("@IdBrand", art.BrandName.Id);
+                conn.SetParam("@IdCategory", art.Category.Id);
+                conn.SetParam("@ImageUrl", art.ImageUrl);
+                conn.SetParam("@Price", art.Price);
 
 
-                    //QueryExecute retorna la cantidad de filas afectadas en la consulta
-                    //Si es igual a 1, significa que el articulo se ingreso correctamente
-                    return conn.queryExecute() == 1;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally 
-                {
-                    conn.closeConnection();
-                }
-
+                //QueryExecute retorna la cantidad de filas afectadas en la consulta
+                //Si es igual a 1, significa que el articulo se ingreso correctamente
+                return conn.QueryExecute() == 1;
             }
-            else
+            catch (Exception ex)
             {
-                //Si ya existe el articulo o el argumento es null, retornamos false
-                return false;
+                throw ex;
             }
-
-            //Funcion en sql para comprobar si existe un argumento en una tabla de sqlserver
-            /*
-             IF EXISTS (SELECT 1 FROM MARCAS WHERE Descripcion = 'Motorola')
-                PRINT 'Existe'
-            ELSE
-                PRINT 'No Existe'
-            */
+            finally 
+            {
+                conn.CloseConnection();
+            }
         }
-
-        public bool existsArticle(Article art)
+        
+        public bool ExistsArticle(Article art)
         {
             Connection conn = new Connection();
             try
             {
                 string query = "SELECT Id FROM ARTICULOS WHERE Codigo = @Code";
-                conn.setQuery(query);
-                conn.setParam("@Code", art.Code);
-                conn.readerExecute();
+                conn.SetQuery(query);
+                conn.SetParam("@Code", art.Code);
+                conn.ReaderExecute();
 
                 return conn.Reader.HasRows;
             }
@@ -139,7 +171,7 @@ namespace Controllers
             }
             finally
             { 
-                conn.closeConnection();
+                conn.CloseConnection();
             }
         }
     }

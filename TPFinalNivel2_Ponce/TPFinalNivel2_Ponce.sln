@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionDB", "ConnectionD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frmArticle", "frmArticle\frmArticle.csproj", "{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "Helper\Helper.csproj", "{0D60BD15-6948-41FF-B2B1-9BDEA16A7EE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEFBA5AA-98A8-4BF9-B94D-00028101AA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D60BD15-6948-41FF-B2B1-9BDEA16A7EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D60BD15-6948-41FF-B2B1-9BDEA16A7EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D60BD15-6948-41FF-B2B1-9BDEA16A7EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D60BD15-6948-41FF-B2B1-9BDEA16A7EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
